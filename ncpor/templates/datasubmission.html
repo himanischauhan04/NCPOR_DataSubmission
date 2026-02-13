@@ -1,0 +1,529 @@
+{% extends "base.html" %}
+{% block title %}Data Submission
+{% endblock title %}
+{% block body %}
+
+<div class="container my-4">
+  <div class="bg-white text-dark p-4 rounded shadow">
+    <h2 class="text-center fw-bold text-primary mb-4">ONLINE METADATA FORM</h2>
+    <p class="mb-4">Please submit details related to your dataset.</p>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      <h5 class="text-danger">Form submission failed due to the following errors:</h5>
+      <ul>
+        {% for field, errors in form.errors.items %}
+        <li><strong>{{ field }}:</strong> {{ errors|striptags }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="/datasubmission/" class="needs-validation" novalidate>
+      {% csrf_token %}
+
+
+
+      <!-- Expedition Type -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">Expedition Type *</label><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="expedition_type" value="Antarctic">
+          <label class="form-check-label bg-light">Antarctic</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="expedition_type" value="Arctic">
+          <label class="form-check-label bg-light ">Arctic</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="expedition_type" value="Southern Ocean">
+          <label class="form-check-label bg-light">Southern Ocean</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="expedition_type" value="Himalaya">
+          <label class="form-check-label bg-light">Himalaya</label>
+        </div>
+      </div>
+
+      <!-- Metadata Title -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Metadata Title *</label>
+        <input type="text" class="form-control bg-light" name="metadata_title" required>
+        <div class="invalid-feedback">
+          * This field is required
+        </div>
+
+      </div>
+
+      <!-- Science Keywords -->
+      <div class="border rounded p-3 mb-3">
+        <h5 class="fw-bold">Science Keywords</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Category *</label>
+            {{ form.science_category }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Topic *</label>
+            {{ form.science_topic }}
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ISO, Year, Expedition No -->
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="form-label">ISO Topic *</label>
+          <select class="form-select bg-light" name="iso_topic">
+            <option selected disabled>--Select--</option>
+            <option value="Environment">Environment</option>
+            <option value="Climatology">Climatology</option>
+            <option value="Geoscientific Information">Geoscientific Information</option>
+            <option value="Biota">Biota</option>
+          </select>
+
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Expedition Year *</label>
+          <select class="form-select bg-light" name="expedition_year">
+            <option selected disabled>--Select--</option>
+            {% for year in years %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Expedition No</label>
+          <input type="text" class="form-control bg-light" name="expedition_no" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Details -->
+      <h5 class="fw-bold">Project Details</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Project Number *</label>
+          <input type="text" class="form-control bg-light" name="project_no" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Project Name *</label>
+          <input type="text" class="form-control bg-light" name="project_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <h5 class="fw-bold">Summary</h5>
+      <div class="mb-3">
+        <label class="form-label">Abstract *</label>
+        <textarea class="form-control bg-light" rows="3" name="abstract"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Purpose *</label>
+        <textarea class="form-control bg-light" rows="3" name="purpose"></textarea>
+      </div>
+
+      <!-- Dataset Citation -->
+      <h5 class="fw-bold">Dataset Citation</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Creator *</label>
+          <input type="text" class="form-control bg-light" name="creator" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Editor *</label>
+          <input type="text" class="form-control bg-light" name="editor" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-control bg-light" name="title" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Series Name *</label>
+          <input type="text" class="form-control bg-light" name="series_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Release Date *</label>
+          <input type="date" class="form-control bg-light" name="release_date" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Release Place *</label>
+          <input type="text" class="form-control bg-light" name="release_place" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Version *</label>
+          <input type="text" class="form-control bg-light" name="version" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Online Resource *</label>
+          <input type="text" class="form-control bg-light" name="online_resource" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Scientist Details -->
+      <h5 class="fw-bold">Scientist Details</h5>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label class="form-label">Role *</label>
+          <input type="text" class="form-control bg-light" name="role" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Title *</label>
+          <select class="form-select bg-light" name="scientist_title">
+            <option selected disabled>--Select--</option>
+            <option value="Dr.">Dr.</option>
+            <option value="Mr.">Mr.</option>
+            <option value="Mrs.">Mrs.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Prof.">Prof.</option>
+          </select>
+
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">First Name *</label>
+          <input type="text" class="form-control bg-light" name="first_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Middle Name</label>
+          <input type="text" class="form-control bg-light" name="middle_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Last Name *</label>
+          <input type="text" class="form-control bg-light" name="last_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-control bg-light" name="email" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Phone *</label>
+          <input type="text" class="form-control bg-light" name="phone" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Mobile Number *</label>
+          <input type="text" class="form-control bg-light" name="mobile" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Institute/Organization *</label>
+        <textarea class="form-control bg-light" name="institute" rows="2"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Address *</label>
+        <textarea class="form-control bg-light" name="address" rows="2"></textarea>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label class="form-label">City *</label>
+          <input type="text" class="form-control bg-light" name="city">
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label>Country *</label>
+          {{form.country}}
+        </div>
+
+        <div class="col-md-3 ">
+          <label class="form-label">Postal Code *</label>
+          <input type="text" class="form-control bg-light" name="postal_code" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+
+        <div class="col-md-3 position-relative mb-3">
+          <label>State *</label>
+          {{form.state}}
+        </div>
+
+
+      </div>
+
+      <!-- Instrument Details -->
+      <h5 class="fw-bold">Instrument Details</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Short Name</label>
+          <input type="text" class="form-control bg-light" name="instrument_short_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Long Name</label>
+          <input type="text" class="form-control bg-light" name="instrument_long_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <!-- GPS Data Collection -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Whether GPS is used for Data Collection?</label><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gps" value="Yes" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gps" value="No" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+
+      <!-- Dataset Progress -->
+      <div class="mb-3">
+        <label class="form-label">Dataset Progress</label>
+        <select class="form-select bg-light" name="dataset_progress">
+          <option selected disabled>--Select--</option>
+          <option value="Complete">Complete</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Planned">Planned</option>
+        </select>
+      </div>
+
+      <!-- Location -->
+      <h5 class="fw-bold">Location</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Type *</label>
+          <input type="text" class="form-control bg-light" name="location" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Subregion *</label>
+          <select class="form-select bg-light" name="subregion">
+            <option selected disabled>--Select--</option>
+            <option value="East Antarctica">East Antarctica</option>
+            <option value="West Antarctica">West Antarctica</option>
+            <option value="Southern Ocean">Southern Ocean</option>
+            <option value="Arctic Ocean">Arctic Ocean</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Data Resolution -->
+      <h5 class="fw-bold">Data Resolution</h5>
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label class="form-label">Latitude Resolution (Deg/Min/Sec)</label>
+          <input class="form-control bg-light mb-1" placeholder="Deg" name="latitude_resolution_deg" required>
+          <input class="form-control bg-light mb-1" placeholder="Min" name="latitude_resolution_min" required>
+          <input class="form-control bg-light" placeholder="Sec" name="latitude_resolution_sec" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Longitude Resolution (Deg/Min/Sec)</label>
+          <input class="form-control bg-light mb-1" placeholder="Deg" name="longitude_resolution_deg" required>
+          <input class="form-control bg-light mb-1" placeholder="Min" name="longitude_resolution_min" required>
+          <input class="form-control bg-light" placeholder="Sec" name="longitude_resolution_sec" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Horizonatal Resolution Range</label>
+          <input type="text" class="form-control bg-light" name="horizontal_resolution_range" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Vertical Resolution</label>
+          <input type="text" class="form-control bg-light" name="vertical_resolution" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Vertical Resolution Range</label>
+          <input type="text" class="form-control bg-light" name="vertical_resolution_range" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Temporal Resolution</label>
+          <input type="text" class="form-control bg-light" name="temporal_resolution" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Temporal Resolution Range</label>
+          <input type="text" class="form-control bg-light" name="temporal_resolution_range" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Platform -->
+      <h5 class="fw-bold">Platform</h5>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Short Name *</label>
+          <input type="text" class="form-control bg-light" name="platform_short_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Long Name *</label>
+          <input type="text" class="form-control bg-light" name="platform_long_name" required>
+          <div class="invalid-feedback">
+            * This field is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-success">Save and Next</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" name="preview" class="btn btn-outline-primary">Preview</button>
+      </div>
+
+    </form>
+  </div>
+  <!-- AJAX script for dependent dropdowns -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Country → State
+    $('#id_country').change(function () {
+      var countryId = $(this).val();
+      var url = "{% url 'get_states' %}";  // View name that returns states for selected country
+
+      if (countryId) {
+        $.ajax({
+          url: url,
+          data: {
+            'country_id': countryId
+          },
+          success: function (data) {
+            var $stateSelect = $('#id_state');
+            $stateSelect.empty();
+            $stateSelect.append('<option value="">---------</option>');
+            $.each(data, function (index, state) {
+              $stateSelect.append('<option value="' + state.id + '">' + state.name + '</option>');
+            });
+          }
+        });
+      } else {
+        $('#id_state').empty().append('<option value="">---------</option>');
+      }
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#id_science_category').change(function () {
+      var categoryId = $(this).val();
+      var url = "{% url 'get_topics' %}";  // URL of the view that returns topics for selected category
+
+      if (categoryId) {
+        $.ajax({
+          url: url,
+          data: {
+            'category_id': categoryId
+          },
+          success: function (data) {
+            var $topicSelect = $('#id_science_topic');
+            $topicSelect.empty();
+            $topicSelect.append('<option value="">---------</option>');
+            $.each(data, function (index, topic) {
+              $topicSelect.append('<option value="' + topic.id + '">' + topic.name + '</option>');
+            });
+          }
+        });
+      } else {
+        $('#id_science_topic').empty().append('<option value="">---------</option>');
+      }
+    });
+  });
+</script>
+
+
+  <script>
+    (function () {
+      'use strict';
+      var forms = document.querySelectorAll('.needs-validation');
+
+      Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+
+
+  {% endblock body %}
+

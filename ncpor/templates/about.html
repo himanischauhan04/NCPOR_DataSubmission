@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About{% endblock title %}
+
+{% block body %}
+<section class="py-5" style="background-color: #0b1c2c;"> <!-- Dark background like screenshot -->
+  <div class="container bg-white text-dark p-4 rounded">
+    
+    <h2 class="text-center mb-4">About</h2>
+    <hr>
+
+    <p>
+      The <strong>Indian National Polar Data Center (NPDC)</strong> was established in 2013 to provide long-term data management of India's polar data, thereby boosting the value and impact of our scientific activities. The NPDC is committed to the free and open exchange of scientific data, in compliance with the Antarctic Treaty’s demand that "to the greatest extent feasible and practicable, scientific observations and also results from Polar region(s) be exchanged and made freely available."
+    </p>
+
+    <p>
+      We collaborate with national and international institutions, networks, and scientists to provide data management and analysis services, as well as actively participate in scientific research.
+    </p>
+
+    <h5 class="mt-5 mb-3"><strong>Functional View of the NPDC</strong></h5>
+    
+    <img src="{% static 'img/functionality.jpeg' %}" alt="Functional View of NPDC" class="img-fluid mx-auto d-block">
+    <h5 class="mt-5 mb-3"><strong>Metadata Flow Diagram</strong></h5>
+    <img src="{% static 'img/metadata_flow.png' %}" alt="Metadata Flow Diagram" class="img-fluid mx-auto d-block">
+
+  </div>
+</section>
+{% endblock body %}

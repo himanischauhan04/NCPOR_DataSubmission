@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Preview Metadata Submission{% endblock title %}
+
+{% block body %}
+<div class="container my-4">
+  <div class="bg-white text-dark p-4 rounded shadow">
+    <h2 class="text-center fw-bold text-primary mb-4">PREVIEW YOUR SUBMISSION</h2>
+    <p class="mb-4">Please review your metadata details before final submission.</p>
+
+    <form method="post" action="{% url 'datasubmission' %}">
+      {% csrf_token %}
+      {% for field, value in data.items %}
+        <div class="mb-3">
+          <label class="form-label fw-bold">{{ field|title }}</label>
+          <input type="hidden" name="{{ field }}" value="{{ value }}">
+          <div class="form-control bg-light">{{ value }}</div>
+        </div>
+      {% endfor %}
+
+      <div class="d-flex gap-3 mt-4">
+        <button type="submit" name="submit" class="btn btn-success">Confirm & Submit</button>
+        <a href="{% url 'datasubmission' %}" class="btn btn-secondary">Edit</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock body %}
+

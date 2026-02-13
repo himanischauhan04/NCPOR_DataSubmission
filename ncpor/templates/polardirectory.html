@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Polar Directory{% endblock title %}
+
+{% block body %}
+<section class="bg-white py-3">
+
+  <!-- Header Section -->
+  <div class="container text-center mb-4">
+    <div class="row align-items-center">
+      <div class="col-md-2">
+        <div class="d-flex align-items-center">
+          <img src="{% static 'img/Emblemlogo.png' %}" alt="Govt of India" class="me-3" height="90" width="90">
+          <img src="{% static 'img/logo.jpg' %}" alt="NCPOR Logo" height="90" width="90">
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="d-flex justify-content-end">
+          <div class="text-end w-80">
+            <h4 class="mt-1 text-primary fw-bold">
+              राष्ट्रीय ध्रुवीय डेटा केंद्र<br>
+              <span class="text-dark">National Polar Data Center</span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blue Bar Section -->
+  <div class="bg-primary text-white py-2">
+    <div class="container d-flex justify-content-between">
+      <span class="fw-bold ms-2">NPDC</span>
+      <span class="me-2 fw-bold">Indian Antarctic Expedition Directory</span>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10 border p-4 m-2">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <!-- Left Group -->
+            <div class="col-md-6">
+              <h5 class="fw-bold">Search by Type</h5>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="institute" value="institute">
+                <label class="form-check-label text-dark" for="institute">Institute</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="project" value="project">
+                <label class="form-check-label text-dark" for="project">Project/TechReport</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="member" value="member">
+                <label class="form-check-label text-dark" for="member">Member/Contributor</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="expedition" value="expedition">
+                <label class="form-check-label text-dark" for="expedition">Expedition</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="role" value="role">
+                <label class="form-check-label text-dark" for="role">Expedition Member Role</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="type" id="leader" value="leader">
+                <label class="form-check-label text-dark" for="leader">Expedition Leader</label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="type" id="keyword" value="keyword">
+                <label class="form-check-label text-dark" for="keyword">Keyword</label>
+              </div>
+            </div>
+
+            <!-- Right Group -->
+            <div class="col-md-6">
+              <h5 class="fw-bold">Search by Station</h5>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="station" id="maitri" value="Maitri">
+                <label class="form-check-label text-dark" for="maitri">Maitri</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="station" id="bharati" value="Bharati">
+                <label class="form-check-label text-dark" for="bharati">Bharati</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="station" id="gangotri" value="Dakshin Gangotri">
+                <label class="form-check-label text-dark" for="gangotri">Dakshin Gangotri</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="station" id="larsen" value="Larsemann Hills">
+                <label class="form-check-label text-dark" for="larsen">Larsemann Hills</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="station" id="southpole" value="South Pole">
+                <label class="form-check-label text-dark" for="southpole">South Pole</label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="station" id="chandra" value="Chandra Basin">
+                <label class="form-check-label text-dark" for="chandra">Chandra Basin</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary fw-bold px-5">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if results %}
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-10">
+          <h5 class="fw-bold">Search Results:</h5>
+          <ul class="list-group">
+            {% for result in results %}
+              <li class="list-group-item">{{ result }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Footer Section -->
+<footer style="background-color: #e67300;" class="text-white py-3">
+  <div class="container text-center">
+    <small>
+      © National Centre for Polar and Ocean Research (NCPOR), Ministry of Earth Sciences (MoES), Government of India.
+    </small>
+  </div>
+</footer>
+{% endblock body %}
+
+

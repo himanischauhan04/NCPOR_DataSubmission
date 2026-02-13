@@ -1,0 +1,68 @@
+<style> 
+  body {
+    background-color: black;
+    color: white;
+  }
+  .upload-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 40px;
+    background: #1e1e1e;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  }
+  label, th {
+    font-weight: bold;
+  }
+  .table td, .table th {
+    vertical-align: middle;
+  }
+</style>
+
+<div class="upload-container">
+  <h3 class="text-center mb-4 text-info fw-bold">Upload Processed Dataset</h3>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table class="table table-dark table-bordered text-white">
+      <tr>
+        <th>Metadata Title:</th>
+        <td>{{ metadata.metadata_title }}</td>
+      </tr>
+      <tr>
+        <th>Expedition Type:</th>
+        <td>{{ metadata.expedition_type }}</td>
+      </tr>
+      <tr>
+        <th>Upload File:</th>
+        <td>
+          <input type="file" name="dataset_file" class="form-control bg-dark text-white" required>
+        </td>
+      </tr>
+      <tr>
+        <th>Old Data (if any):</th>
+        <td>
+          <textarea name="old_data" class="form-control bg-dark text-white" rows="3" placeholder="Enter details about old data..."></textarea>
+        </td>
+      </tr>
+    </table>
+
+    <div class="text-white mt-3">
+      <ul>
+        <li>Allowed extensions: <code>.xls, .xlsx, .csv, .pdf, .txt, .zip, .nc</code></li>
+        <li>Max file size: 2 GB</li>
+        <li>For multiple files, zip them and upload the `.zip`</li>
+      </ul>
+    </div>
+
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success btn-lg px-5">Submit Dataset</button>
+    </div>
+  </form>
+</div>
+
+
+
+
+
